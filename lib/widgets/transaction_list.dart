@@ -5,13 +5,14 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> userTransactions;
+  final Function deleteTransactionHandler;
 
-  TransactionList(this.userTransactions);
+  TransactionList(this.userTransactions, this.deleteTransactionHandler);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 580,
       child: userTransactions.isEmpty
           ? Column(
               children: <Widget>[
@@ -32,66 +33,34 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
-                        child: Text(
-                          '₹${userTransactions[index].amount}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 23,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).primaryColor,
-                            width: 2,
-                          ),
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: FittedBox(
+                        child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: Text('₹${userTransactions[index].amount}'),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              userTransactions[index].title,
-                              style: Theme.of(context).textTheme.title,
-                            ),
-                            margin: EdgeInsets.all(3),
-                          ),
-                          Container(
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  DateFormat.yMMMd().format(
-                                          userTransactions[index].date) +
-                                      "  ",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                Text(
-                                  DateFormat.jm()
-                                      .format(userTransactions[index].date),
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            margin: EdgeInsets.all(3),
-                          ),
-                        ],
-                      )
-                    ],
+                    ),
+                    title: Text(
+                      userTransactions[index].title,
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(userTransactions[index].date),
+                    ),
+                    trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Theme.of(context).errorColor,
+                        onPressed: () {
+                          deleteTransactionHandler(userTransactions[index].id);
+                        }),
                   ),
                 );
               },
