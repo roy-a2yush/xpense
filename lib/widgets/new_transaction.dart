@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -53,88 +56,95 @@ class _NewTransactionState extends State<NewTransaction> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
-      child: Card(
-        elevation: 5,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                top: 1,
-                bottom: 3,
-                left: 10,
-                right: 10,
-              ),
-              child: TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _inputTitleController,
-                autofocus: true,
-                onSubmitted: (_) => _submitTransaction(),
-                //onChanged: (value) {
-                //titleInput = value;
-                //},
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 1,
-                bottom: 3,
-                left: 10,
-                right: 10,
-              ),
-              child: TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-                controller: _inputAmountController,
-                keyboardType: TextInputType.phone,
-                onSubmitted: (_) => _submitTransaction(),
-                //onChanged: (value) {
-                //amountInput = value;
-                //},
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 1,
-                bottom: 3,
-                left: 10,
-                right: 10,
-              ),
-              child: Container(
-                padding: EdgeInsets.only(top: 5),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        _selectedDate == null
-                            ? 'No date chosen'
-                            : 'Date chosen: ${DateFormat.yMMMd().format(_selectedDate)}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.calendar_today),
-                        onPressed: () => _presentDatePicker(context))
-                  ],
+      padding: EdgeInsets.only(
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+      child: SingleChildScrollView(
+        child: Card(
+          elevation: 5,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(
+                  top: 1,
+                  bottom: 3,
+                  left: 10,
+                  right: 10,
+                ),
+                child: TextField(
+                  decoration: InputDecoration(labelText: 'Title'),
+                  controller: _inputTitleController,
+                  autofocus: true,
+                  onSubmitted: (_) => _submitTransaction(),
+                  //onChanged: (value) {
+                  //titleInput = value;
+                  //},
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              padding: EdgeInsets.only(right: 10),
-              child: RaisedButton(
-                color: Theme.of(context).primaryColor,
-                onPressed: _submitTransaction,
-                child: Text('Add Transaction'),
-                textColor: Theme.of(context).textTheme.button.color,
+              Container(
+                margin: EdgeInsets.only(
+                  top: 1,
+                  bottom: 3,
+                  left: 10,
+                  right: 10,
+                ),
+                child: TextField(
+                  decoration: InputDecoration(labelText: 'Amount'),
+                  controller: _inputAmountController,
+                  keyboardType: TextInputType.phone,
+                  onSubmitted: (_) => _submitTransaction(),
+                  //onChanged: (value) {
+                  //amountInput = value;
+                  //},
+                ),
               ),
-            )
-          ],
+              Container(
+                margin: EdgeInsets.only(
+                  top: 1,
+                  bottom: 3,
+                  left: 10,
+                  right: 10,
+                ),
+                child: Container(
+                  padding: EdgeInsets.only(top: 5),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          _selectedDate == null
+                              ? 'No date chosen'
+                              : 'Date chosen: ${DateFormat.yMMMd().format(_selectedDate)}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.calendar_today),
+                        onPressed: () => _presentDatePicker(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.only(right: 10),
+                child: RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  onPressed: _submitTransaction,
+                  child: Text('Add Transaction'),
+                  textColor: Theme.of(context).textTheme.button.color,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
